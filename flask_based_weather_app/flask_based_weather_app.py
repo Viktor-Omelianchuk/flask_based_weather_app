@@ -31,6 +31,7 @@ def get_weather_date(city):
     return r
 
 
+# Views
 @app.route("/")
 def index_get():
 
