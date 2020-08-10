@@ -1,4 +1,3 @@
-import pytest
 from flask_based_weather_app.flask_based_weather_app import app
 
 

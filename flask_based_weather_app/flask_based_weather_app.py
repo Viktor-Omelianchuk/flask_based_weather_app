@@ -20,9 +20,12 @@ class City(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
 
-def get_weather_date(city):
-    """The function gets weather date from 'http://api.openweathermap.org'"""
+def get_weather_date(city: str) -> dict:
+    """The function gets weather date from 'http://api.openweathermap.org'
 
+    :param city: (str),
+    :return: a dictionary with data
+    """
     url = (
         f"http://api.openweathermap.org/data/2.5/weather?q="
         f"{city}&units=metric&appid=6d8309305eeab8655e9b0c4ed74f5b9e"
@@ -34,7 +37,9 @@ def get_weather_date(city):
 # Views
 @app.route("/")
 def index_get():
-
+    """The function will process a get request of the root page,
+    return a rendered html page with the display
+    of the weather in the cities stored in the weather database"""
     weather_data = []
     cities = City.query.all()
     for city in cities:
@@ -54,6 +59,9 @@ def index_get():
 
 @app.route("/", methods=["POST"])
 def index_post():
+    """The function processes the POST request after sending the data through the form,
+    if the data is absent in the database, it saves it.
+    The function redirects to the root page of the site, which is displayed with updated data."""
     err_msg = ""
     new_city = request.form.get("city")
 
@@ -81,6 +89,7 @@ def index_post():
 
 @app.route("/delete/<name>")
 def delete_city(name):
+    """The function removes the city from the database, returns the root page with updated data"""
     city = City.query.filter_by(name=name).first()
     db.session.delete(city)
     db.session.commit()
