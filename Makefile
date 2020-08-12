@@ -53,9 +53,6 @@ lint: ## check style with flake8
 test: ## run tests quickly with the default Python
 	pytest
 
-test-all: ## run tests on every Python version with tox
-	tox
-
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source flask_based_weather_app -m pytest
 	coverage report -m
@@ -73,13 +70,9 @@ docs: ## generate Sphinx HTML documentation, including API docs
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
-release: dist ## package and upload a release
-	twine upload dist/*
-
-dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
-	ls -l dist
-
 install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+	python -m pip install --upgrade pip
+	python -m pip install -r requirements_dev.txt
+
+run: ## run local development server
+	gunicorn -w 4 flask_based_weather_app.flask_based_weather_app:app

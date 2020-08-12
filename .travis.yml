@@ -1,26 +1,22 @@
-# Config file for automatic testing at travis-ci.com
+## Config file for automatic testing at travis-ci.com
 
 language: python
 python:
-  - 3.8
+  - "3.8"
+jobs:
+  include:
+    - name: "Linter"
+      before_script:
+        - pip install -q flake8
+      script:
+        - "flake8 flask_based_weather_app tests"
 
-# Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-install: pip install -U tox-travis
+    - name: "Flask_based_weather_app test"
+      language: python
+      python:
+        - "3.8"
+      install:
+        - make install
+      script:
+        - make test
 
-# Command to run tests, e.g. python setup.py test
-script: tox
-
-# Assuming you have installed the travis-ci CLI tool, after you
-# create the Github repo and add it to Travis, run the
-# following command to finish PyPI deployment setup:
-# $ travis encrypt --add deploy.password
-#deploy:
-#  provider: pypi
-#  distributions: sdist bdist_wheel
-#  user: Viktor-Omelianchuk
-#  password:
-#    secure: PLEASE_REPLACE_ME
-#  on:
-#    tags: true
-#    repo: Viktor-Omelianchuk/flask_based_weather_app
-#    python: 3.8

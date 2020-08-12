@@ -59,9 +59,11 @@ def index_get():
 
 @app.route("/", methods=["POST"])
 def index_post():
-    """The function processes the POST request after sending the data through the form,
+    """ The function processes the POST request after sending
+    the data through the form,
     if the data is absent in the database, it saves it.
-    The function redirects to the root page of the site, which is displayed with updated data."""
+    The function redirects to the root page of the site"""
+
     err_msg = ""
     new_city = request.form.get("city")
 
@@ -89,7 +91,9 @@ def index_post():
 
 @app.route("/delete/<name>")
 def delete_city(name):
-    """The function removes the city from the database, returns the root page with updated data"""
+    """The function removes the city from the database,
+    returns the root page with updated data"""
+
     city = City.query.filter_by(name=name).first()
     db.session.delete(city)
     db.session.commit()
